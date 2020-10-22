@@ -1,7 +1,7 @@
 package be.businesstraining;
 
-import be.businesstraining.domain.Book;
-import be.businesstraining.domain.Category;
+import be.businesstraining.entities.Book;
+import be.businesstraining.entities.Category;
 import be.businesstraining.repository.IBooksRepository;
 import be.businesstraining.repository.ICategoriesRepository;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public class BookstoreMockBackApplication {
 			Book b11 = new Book(null, "Java OCA", "Kathy Sierra", cat1, "Some description Lorem ipsum Lorem ipsum", BigDecimal.TEN, "https://images-na.ssl-images-amazon.com/images/I/51ptF7BSDYL._SX403_BO1,204,203,200_.jpg" );
 			Book b12 = new Book(null, "Spring In Action", "Craig Walls", cat1, "Some description Lorem ipsum Lorem ipsum", BigDecimal.TEN, "https://learning.oreilly.com/library/cover/9781617294945/250w/" );
 			Book b13 = new Book(null, "Angular In Action", "Jeremy Wilken", cat1, "Some description Lorem ipsum Lorem ipsum", BigDecimal.TEN, "https://images-na.ssl-images-amazon.com/images/I/41Vs-83rPxL._SX258_BO1,204,203,200_.jpg");
-						Book b14 = new Book(null, "GOF Design patterns", "The GOF", cat1, "Some description Lorem ipsum Lorem ipsum", BigDecimal.TEN, "https://images-na.ssl-images-amazon.com/images/I/51kuc0iWoKL._SX326_BO1,204,203,200_.jpg" );
+			Book b14 = new Book(null, "GOF Design patterns", "The GOF", cat1, "Some description Lorem ipsum Lorem ipsum", BigDecimal.TEN, "https://images-na.ssl-images-amazon.com/images/I/51kuc0iWoKL._SX326_BO1,204,203,200_.jpg" );
 		    bookRepo.saveAll(Arrays.asList(b11, b12, b13, b14));
 
 		    // Create Category "Litterature"

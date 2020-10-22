@@ -1,6 +1,4 @@
-package be.businesstraining.domain;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package be.businesstraining.entities;
 
 import javax.persistence.*;
 import java.util.List;

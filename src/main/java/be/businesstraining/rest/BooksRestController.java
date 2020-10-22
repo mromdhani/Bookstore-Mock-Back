@@ -1,7 +1,13 @@
 package be.businesstraining.rest;
 
-import be.businesstraining.domain.Book;
+import be.businesstraining.entities.Book;
+import be.businesstraining.entities.Category;
 import be.businesstraining.repository.IBooksRepository;
+import be.businesstraining.repository.ICategoriesRepository;
+import net.bytebuddy.implementation.bind.annotation.Default;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,16 +22,30 @@ import java.util.Optional;
 public class BooksRestController {
 
     private IBooksRepository booksRepository;
+    private ICategoriesRepository categoriesRepository;
 
     // The @Autowired decoration is not required for constructor injection
-    public BooksRestController(IBooksRepository booksRepository) {
+    public BooksRestController(IBooksRepository booksRepository,
+                              ICategoriesRepository categoriesRepository){
         this.booksRepository = booksRepository;
+        this.categoriesRepository = categoriesRepository;
     }
 
     @GetMapping
     public List<Book> findAll() {
         return  booksRepository.findAll();
     }
+
+    // @PathVariable vs @ParamPath
+
+    @GetMapping(params= {"numPage", "pageSize"})
+    public Page<Book> findAll(@RequestParam (value = "numPage") int numPage,
+                              @RequestParam(value = "pageSize",
+                                            defaultValue = "2", required = false) int pageSize) {
+
+        return  booksRepository.findAll(PageRequest.of(numPage, pageSize));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Book> findById(@PathVariable Long id) {
         Optional<Book> book = booksRepository.findById(id);
@@ -38,5 +58,21 @@ public class BooksRestController {
     public List<Book> findBooksFilteredByTitleOrAuthors(@PathParam(value = "filter") String filter) {
         return  booksRepository.
                 findAllByTitleContainingIgnoreCaseOrAuthorsContainingIgnoreCase(filter,filter);
+    }
+
+    @PostMapping (path = "/category/{catId}")
+    public ResponseEntity<Book> addBook(@PathVariable Long catId,
+                                        @RequestBody Book book) {
+
+       Optional<Category> category = categoriesRepository.findById(catId);
+       if (! category.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            else {
+                book.setCategory(category.get());
+                Book result = booksRepository.save(book);
+                return (result != null)?
+                        new ResponseEntity<Book>(result, HttpStatus.OK)
+                        : new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 }

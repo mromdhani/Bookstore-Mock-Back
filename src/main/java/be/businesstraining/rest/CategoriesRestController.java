@@ -1,7 +1,7 @@
 package be.businesstraining.rest;
 
-import be.businesstraining.domain.Book;
-import be.businesstraining.domain.Category;
+import be.businesstraining.entities.Book;
+import be.businesstraining.entities.Category;
 import be.businesstraining.repository.ICategoriesRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +34,7 @@ public class CategoriesRestController {
                 new ResponseEntity<>(category.get(), HttpStatus.OK):
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    @GetMapping("/{id}/books")
+    @GetMapping(value = "/{id}/books")
     public ResponseEntity<List<Book>> findBooksForCategory(@PathVariable Long id) {
         Optional<Category> category = categoriesRepository.findById(id);
         if (category.isPresent()) {

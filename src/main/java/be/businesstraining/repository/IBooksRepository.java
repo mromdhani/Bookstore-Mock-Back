@@ -1,6 +1,6 @@
 package be.businesstraining.repository;
 
-import be.businesstraining.domain.Book;
+import be.businesstraining.entities.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

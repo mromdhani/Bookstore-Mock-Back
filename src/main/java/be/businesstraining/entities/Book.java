@@ -1,4 +1,4 @@
-package be.businesstraining.domain;
+package be.businesstraining.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
